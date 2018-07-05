@@ -10,7 +10,6 @@ public class ArrayStorage {
     private int current; //pointer on new element and storage size
 
     public ArrayStorage() {
-        current = 0;
     }
 
     void clear() {
