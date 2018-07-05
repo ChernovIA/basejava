@@ -9,31 +9,27 @@ public class ArrayStorage {
     private Resume[] storage = new Resume[MAX_COUNT];
     private int current; //pointer on new element and storage size
 
-    public ArrayStorage(){
+    public ArrayStorage() {
         current = 0;
     }
 
     void clear() {
-        Arrays.fill(storage,null);
-        current = 0;
+        Arrays.fill(storage, 0, current - 1, null);
     }
 
     void save(Resume r) {
-        if (current == MAX_COUNT){
-            current = MAX_COUNT - 1;
-        }
         storage[current] = r;
         current++;
     }
 
     Resume get(String uuid) {
         int index = getIndexById(uuid);
-        return index==-1?null:storage[index];
+        return index == -1 ? null : storage[index];
     }
 
-    private int getIndexById(String uuid){
-        for(int i = 0; i < current; i++){
-            if (storage[i].uuid.equals(uuid)){
+    private int getIndexById(String uuid) {
+        for (int i = 0; i < current; i++) {
+            if (storage[i].uuid.equals(uuid)) {
                 return i;
             }
         }
@@ -44,13 +40,11 @@ public class ArrayStorage {
 
         int index = getIndexById(uuid);
 
-        if (index >= 0 && index < MAX_COUNT - 1){
+        if (index >= 0 && index < MAX_COUNT - 1) {
             storage[index] = null;
 
             //shift elements
-            for(int j = index; j < current-1; j++){
-                storage[j] = storage[j+1];
-            }
+            System.arraycopy(storage, index + 1, storage, index, current - 1 - index);
 
             current--;
         }
@@ -60,7 +54,7 @@ public class ArrayStorage {
      * @return array, contains only Resumes in storage (without null)
      */
     Resume[] getAll() {
-        return Arrays.copyOf(storage,current);
+        return Arrays.copyOf(storage, current);
     }
 
     int size() {
